@@ -183,9 +183,9 @@ const hourAngle = hours * 30 + minutes * 0.5 - 90;
 4. Responsive First
 -   Works seamlessly across mobile & desktop.
 
-###     Screenshots
+###     📸 Screenshots
 
-📸 Screenshots
+
 
 📌 Add your screenshots in the screenshots/ folder and update paths here.
 
