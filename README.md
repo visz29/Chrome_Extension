@@ -192,8 +192,17 @@ const hourAngle = hours * 30 + minutes * 0.5 - 90;
 📌 Add your screenshots in the screenshots/ folder and update paths here.
 
 🖥️ Full Dashboard
-[Alt text](image_path_or_url)
+![alt text](image.png)
+
 
 🕒 Clock & Date Widget
+![alt text](image-1.png)
+
 
 🖼️ Wallpaper Customization
+![alt text](image-2.png)
+
+- Deleting Added Sites
+![alt text](image-3.png)
+
+
