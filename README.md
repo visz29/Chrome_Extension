@@ -192,8 +192,9 @@ const hourAngle = hours * 30 + minutes * 0.5 - 90;
 📌 Add your screenshots in the screenshots/ folder and update paths here.
 
 🖥️ Full Dashboard
+<br>
 <details>
-    <img src="./src/screens/image.png" class="imgbr" width="50%">
+    <img src="screens/image.png" class="imgbr" width="50%">
 </details>
 
 🕒 Clock & Date Widget
