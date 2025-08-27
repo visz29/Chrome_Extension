@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Custom Tab</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background: linear-gradient(to right, #667eea, #764ba2);
+      font-family: Arial, sans-serif;
+    }
+    .search-box {
+      display: flex;
+      border-radius: 20px;
+      overflow: hidden;
+      background: white;
+    }
+    .search-box input {
+      border: none;
+      padding: 10px;
+      font-size: 16px;
+      outline: none;
+      width: 300px;
+    }
+    .search-box button {
+      background: purple;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+    }
+    .search-box button:hover {
+      background: #5a2d82;
+    }
+  </style>
+</head>
+<body>
+  <div class="search-box">
+    <input type="text" id="searchInput" placeholder="Search Google..." />
+    <button id="searchBtn">Go</button>
+  </div>
+
+  <!-- Load external JS -->
+  <script src="popup.js"></script>
+</body>
+</html>
