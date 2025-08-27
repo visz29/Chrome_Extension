@@ -201,7 +201,8 @@ const hourAngle = hours * 30 + minutes * 0.5 - 90;
 
 
 🕒 Clock & Date Widget
-![alt text](image-1.png)
+
+<img src="screens/image-1.png" class="imgbr" width="50%">
 
 
 🖼️ Wallpaper Customization
