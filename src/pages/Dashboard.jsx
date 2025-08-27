@@ -739,7 +739,7 @@ export default function DashboardPage() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-white text-sm font-medium">Watch </p>
-                <p className="text-white/60 text-xs">Random from all wallpapers</p>
+                <p className="text-white/60 text-xs">Show current time of your system</p>
               </div>
               <button
                 onClick={() => setWatch(!watch)}
@@ -756,7 +756,7 @@ export default function DashboardPage() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-white text-sm font-medium">Wather </p>
-                <p className="text-white/60 text-xs">Random from all wallpapers</p>
+                <p className="text-white/60 text-xs">show daily wather</p>
               </div>
               <button
                 onClick={() => setWeather(!weather)}
@@ -772,8 +772,8 @@ export default function DashboardPage() {
             {/* Temprature  Button*/}
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-white text-sm font-medium">Wather </p>
-                <p className="text-white/60 text-xs">Random from all wallpapers</p>
+                <p className="text-white text-sm font-medium">Temprature </p>
+                <p className="text-white/60 text-xs">show current Temprature</p>
               </div>
               <button
                 onClick={() => setTemprature(!temprature)}
