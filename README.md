@@ -169,9 +169,7 @@ const hourAngle = hours * 30 + minutes * 0.5 - 90;
 -   Grid/Flexbox powered layout.
 -   Mobile-first responsive design.
 
-### UI/UX Design Philosophy
-
-🎨 UI/UX Design Philosophy
+### 🎨 UI/UX Design Philosophy
 
 1. Minimalist Approach
 -   Avoid clutter and show only essential information.
