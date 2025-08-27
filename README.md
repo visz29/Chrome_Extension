@@ -88,7 +88,7 @@ The inspiration comes from the idea that **a dashboard should be your personal c
 ## ⚙️ Installation & Setup  
 
 ### 1. Clone the Repository
-```bash
+
 git clone https://github.com/yourusername/dashboard.git
 cd dashboard
 
@@ -196,6 +196,9 @@ const hourAngle = hours * 30 + minutes * 0.5 - 90;
 <details>
     <img src="screens/image.png" class="imgbr" width="50%">
 </details>
+<img width="876" height="497" alt="Annotation 2025-08-27 164417" src="https://github.com/user-attachments/assets/8c93626f-c2bc-4aac-81ff-e691e91dc49e" />
+
+
 
 🕒 Clock & Date Widget
 ![alt text](image-1.png)
