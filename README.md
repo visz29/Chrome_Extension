@@ -191,24 +191,89 @@ const hourAngle = hours * 30 + minutes * 0.5 - 90;
 
 🖥️ Full Dashboard
 
-<img src="screens/image.png" class="imgbr" width="50%">
+<img src="screens/image.png" class="imgbr" width="80%">
 <br>
 
 🕒 Clock & Date Widget
 
-<img src="screens/image-1.png" class="imgbr" width="50%">
+<img src="screens/image-1.png" class="imgbr" width="80%">
 <br>
 
 
 🖼️ Wallpaper Customization
 
-<img src="screens/image-2.png" class="imgbr" width="50%">
+<img src="screens/image-2.png" class="imgbr" width="80%">
 <br>
 
 
 - Deleting Added Sites
 
-<img src="screens/image-3.png" class="imgbr" width="50%">
+<img src="screens/image-3.png" class="imgbr" width="80%">
+<br>
+<br>
 <br>
 
 
+▶️ Usage
+
+-   Launch the app (npm run dev).
+
+-   Add wallpapers → they will persist via localStorage.
+
+-   Observe real-time clock & date updates.
+
+-   Enjoy a clean, customizable dashboard.
+
+<br>
+🎛 Customization
+
+-   Modify colors & themes via Tailwind config.
+
+-   Add new widgets/components under /components.
+
+-   Replace default wallpapers under /assets.
+
+<br>
+⚡ Performance Considerations
+
+-   Lazy loading wallpapers to avoid large initial bundle size.
+
+-   LocalStorage quota (error handling: "QuotaExceededError").
+
+-   Minimized re-renders by splitting components logically.
+
+<br>
+
+⚠️ Challenges Faced
+
+-   LocalStorage Limits
+    → Large wallpaper images can exceed storage quota.
+
+-   Responsive Design
+    → Handling multiple screen sizes with flex/grid.
+
+-   Extension Behavior
+    → Works fine locally but requires adjustments for Chrome’s sandbox.
+
+🚀 Future Improvements
+
+-   Weather Widget 🌦️
+
+-   Search Bar with History Suggestions 🔍
+
+-   To-do / Notes Integration 📝
+
+-   API Integration for News/Stocks 📈
+
+
+🤝 Contributing
+
+-   Fork this repository
+
+-   Create a new branch (feature/your-feature)
+
+-   Commit changes
+
+-   Open a Pull Request
+
+###  Project Vedio
