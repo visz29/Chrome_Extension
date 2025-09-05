@@ -94,17 +94,17 @@ cd dashboard
 
 ### Project Structure 
 
-dashboard/
-│── public/                # Static files that Vite serves directly
-│   └── favicon.ico         # Example: icons, manifest, etc.
-│
-│── src/                    # Source code (everything React-related lives here)
-│   ├── components/         # Reusable UI components (Clock, Wallpaper, Widgets, etc.)
-│   │   ├── Clock.jsx
-│   │   ├── DateWidget.jsx
-│   │   └── WallpaperUploader.jsx
-│   │
-│   ├── assets/             # Images, GIFs, icons, wallpapers
+dashboard/<br>
+│── public/                # Static files that Vite serves directly<br>
+│   └── favicon.ico         # Example: icons, manifest, etc.<br>
+│<br>
+│── src/                    # Source code (everything React-related lives here)<br>
+│   ├── components/         # Reusable UI components (Clock, Wallpaper, Widgets, etc.)<br>
+│   │   ├── Clock.jsx<br>
+│   │   ├── DateWidget.jsx<br>
+│   │   └── WallpaperUploader.jsx<br>
+│   │<br>
+│   ├── assets/             # Images, GIFs, icons, wallpapers<br>
 │   │   └── background.png
 │   │
 │   ├── styles/             # Tailwind & custom CSS
