@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react"
 import { getWeather } from "../API/weather"
 import history from "../API/history"
+import { FlipClock } from "../components/flip-clock"
 
 // Advanced Dashboard
 // Custom Button Component
@@ -97,6 +98,11 @@ const Sun = ({ className = "" }) => (
     <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
   </svg>
 )
+export const Moon = ({ className = "" }) => (
+  <svg className={`w-12 h-12 ${className}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M21 12.79A9 9 0 1111.21 3a7 7 0 009.79 9.79z" />
+  </svg>
+)
 
 const X = ({ className = "" }) => (
   <svg className={`w-5 h-5 ${className}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -120,23 +126,24 @@ function AnalogClock() {
   useEffect(() => {
     const timer = setInterval(() => {
       setTime(new Date())
+
     }, 1000)
 
     return () => clearInterval(timer)
   }, [])
 
-  const hours = time.getHours()* 30
-  const minutes = time.getMinutes() * 6 
+  const hours = time.getHours() * 30
+  const minutes = time.getMinutes() * 6
   const seconds = time.getSeconds()
 
   // console.log("hours",hours);
-  
-  const hourAngle = (hours+(minutes/12));
-  const minuteAngle = minutes 
-  const secondAngle = seconds * 6 
+
+  const hourAngle = (hours + (minutes / 12));
+  const minuteAngle = minutes
+  const secondAngle = seconds * 6
 
   return (
-   <div className="relative w-50 h-50">
+    <div className="relative w-50 h-50">
       <svg className="w-full h-full" viewBox="0 0 100 100">
         {/* Clock face */}
         <circle cx="50" cy="50" r="48" fill="transparent" stroke="none" />
@@ -190,7 +197,7 @@ function AnalogClock() {
           strokeLinecap="round"
           transform={`rotate(${hourAngle} 50 50)`}
           className="transition-all duration-300"
-          />
+        />
 
         {/* Minute hand */}
         <line
@@ -203,7 +210,7 @@ function AnalogClock() {
           strokeLinecap="round"
           transform={`rotate(${minuteAngle} 50 50)`}
           className="transition-all duration-300"
-          />
+        />
 
         {/* Seconds hand */}
         <line
@@ -276,7 +283,7 @@ const deleteWallpaperFromDB = async (id) => {
 // Main Dashboard Component
 export default function DashboardPage() {
   const [searchQuery, setSearchQuery] = useState("")
-   const [recentSearches, setRecentSearches] = useState([])
+  const [recentSearches, setRecentSearches] = useState([])
   const [showSuggestions, setShowSuggestions] = useState(false)
   const [customSites, setCustomSites] = useState([])
   const [showAddSiteModal, setShowAddSiteModal] = useState(false)
@@ -297,34 +304,58 @@ export default function DashboardPage() {
   const [watch, setWatch] = useState(false)
   const [weather, setWeather] = useState(false)
   const [temprature, setTemprature] = useState(false)
-  const [weatherType, setWeatherType] = useState("SUNNY")
+  const [weatherType, setWeatherType] = useState({})
+  const [watchType, setWatchType] = useState(false)
   let [switchEnableCount, setswitchEnableCount] = useState(1)
+  let [ampm, setAmpm] = useState("PM")
   // Function to set wallpaper
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      /// Get Day an night-------\
+      const now = new Date();
+      const hours = now.getHours(); // 0–23
+      // let timeOfDay;
+      if (hours >= 6 && hours < 18) {
+        // timeOfDay = "Day";
+        setAmpm("day")
+      } else {
+        // timeOfDay = "Night";
+        setAmpm("night")
+      }
+      ////------------------------/
+    }, 1000);
+
+    
+    return () => clearInterval(timer)
+  }, [])
+
+
   const handleSetWallpaper = (wallpaper) => {
     setCurrentWallpaper(wallpaper.url)
     setCurrentWallpaperType(wallpaper.type)
   }
 
 
-  // useEffect(()=>{
-  //   getWeather()
-  //   .then((res)=>{
-  //     console.log(res.weather.main.humidity);
-  //     setWeatherType(res.weather.weather[0].main)
-  //   })
-  // },[])
+  useEffect(() => {
+    getWeather()
+      .then((res) => {
+        console.log(res);
+        setWeatherType(res)
+      })
+  }, [])
 
   // Load History
-  useEffect(()=>{
+  useEffect(() => {
     // history().then((res)=>{
     //   console.log(res);
-      
+
     // })
     // .catch((err)=>{
     //   console.log(err);
-      
+
     // })
-  },[])
+  }, [])
 
 
 
@@ -336,21 +367,21 @@ export default function DashboardPage() {
     }
     // const savedSearches = localStorage.getItem("recentSearches")
     // if (savedSearches) {
-      
-      let his = []
-      history().then((res)=>{
+
+    let his = []
+    history().then((res) => {
       // console.log("res",res);
-       setRecentSearches(res)
+      setRecentSearches(res)
     })
-    .catch((err)=>{
-      console.log(err);
-      
-    })
-    
-      // setRecentSearches(JSON.parse(savedSearches))
+      .catch((err) => {
+        console.log(err);
+
+      })
+
+    // setRecentSearches(JSON.parse(savedSearches))
     // }
-    
-    
+
+
 
     // Load wallpapers from IndexedDB
     const loadWallpapers = async () => {
@@ -388,7 +419,7 @@ export default function DashboardPage() {
     if (savedEnableWatch) {
       setWatch(JSON.parse(savedEnableWatch))
       // JSON.parse(savedEnableWatch) ? setswitchEnableCount(switchEnableCount += 1) : ""
-      
+
     }
     const savedEnableWeather = localStorage.getItem("weather")
     if (savedEnableWeather) {
@@ -401,7 +432,13 @@ export default function DashboardPage() {
       // JSON.parse(savedEnableTemprature) ? setswitchEnableCount(switchEnableCount += 1) : ""
     }
     // console.log(switchEnableCount);
-    
+
+    const savedWatchType = localStorage.getItem("watchType")
+    if (savedWatchType) {
+      setWatchType(JSON.parse(savedWatchType))
+    }
+
+
   }, [])
 
   // Save data to localStorage (sites and settings only)
@@ -424,24 +461,27 @@ export default function DashboardPage() {
   useEffect(() => {
     localStorage.setItem("watch", JSON.stringify(watch))
     // console.log(watch);
-    
+
     // console.log(switchEnableCount);
-    watch==true ? switchEnableCount<3 ? setswitchEnableCount(switchEnableCount += 1) :"" : switchEnableCount>1 ? setswitchEnableCount(switchEnableCount -= 1) :""
+    watch == true ? switchEnableCount < 3 ? setswitchEnableCount(switchEnableCount += 1) : "" : switchEnableCount > 1 ? setswitchEnableCount(switchEnableCount -= 1) : ""
     // console.log(switchEnableCount);
-    
+
   }, [watch])
-  
+
   useEffect(() => {
     localStorage.setItem("weather", JSON.stringify(weather))
-    weather==true ? switchEnableCount<3 ? setswitchEnableCount(switchEnableCount += 1) :"" : switchEnableCount>0 ? setswitchEnableCount(switchEnableCount -= 1) :""
+    weather == true ? switchEnableCount < 3 ? setswitchEnableCount(switchEnableCount += 1) : "" : switchEnableCount > 0 ? setswitchEnableCount(switchEnableCount -= 1) : ""
     // console.log(switchEnableCount);
   }, [weather])
-  
+
   useEffect(() => {
     localStorage.setItem("temprature", JSON.stringify(temprature))
-    temprature==true ? switchEnableCount<3 ? setswitchEnableCount(switchEnableCount += 1) :"" : switchEnableCount>0 ? setswitchEnableCount(switchEnableCount -= 1) :""
+    temprature == true ? switchEnableCount < 3 ? setswitchEnableCount(switchEnableCount += 1) : "" : switchEnableCount > 0 ? setswitchEnableCount(switchEnableCount -= 1) : ""
   }, [temprature])
 
+  useEffect(() => {
+    localStorage.setItem("watchType", JSON.stringify(watchType))
+  }, [watchType])
   //   useEffect(() => {
   //   localStorage.setItem("recentSearches", JSON.stringify(recentSearches))
   // }, [recentSearches])
@@ -504,7 +544,7 @@ export default function DashboardPage() {
 
   const handleSuggestionClick = (suggestion) => {
     // console.log(suggestion);
-    
+
     setSearchQuery(suggestion)
     setShowSuggestions(false)
     const target = autoSelectEnabled ? "_blank" : "_self"
@@ -515,7 +555,7 @@ export default function DashboardPage() {
     (search) => (search.title).toLowerCase().includes(searchQuery.toLowerCase()) && search !== searchQuery,
   )
   // console.log(filteredSuggestions);
-  
+
 
   const getFaviconUrl = (url) => {
     try {
@@ -539,7 +579,7 @@ export default function DashboardPage() {
       };
 
       // console.log( newSite );
-      
+
 
       setCustomSites((prev) => [...prev, newSite])
       setNewSiteUrl("")
@@ -549,7 +589,7 @@ export default function DashboardPage() {
   }
 
   const handleOpenSite = (url) => {
-    const target = autoSelectEnabled ? "_blank" : "_self"
+    const target = !autoSelectEnabled ? "_blank" : "_self"
     window.open(url, target)
   }
 
@@ -657,7 +697,7 @@ export default function DashboardPage() {
 
   return (
     <div
-      className="min-h-screen bg-gradient-to-br from-blue-400 via-purple-500 to-blue-600 p-1 relative overflow-hidden bg-center"
+      className="min-h-screen bg-gradient-to-br from-blue-400 via-purple-500 to-blue-600 p-1 relative overflow-hidden bg-center flex justify-start items-center flex-col"
       style={{
         backgroundImage: currentWallpaperType === "image" && currentWallpaper ? `url(${currentWallpaper})` : undefined,
         backgroundSize: "cover",
@@ -786,6 +826,26 @@ export default function DashboardPage() {
                 />
               </button>
             </div>
+
+            {/* Digital Watch Switch */}
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-white text-sm font-medium">Watch Type </p>
+                <p className="text-white/60 text-xs">Analog OR Digital</p>
+              </div>
+              <button
+                onClick={() => setWatchType(!watchType)}
+                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${watchType ? "bg-blue-500" : "bg-gray-600"
+                  }`}
+              >
+                <span
+                  className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${watchType ? "translate-x-6" : "translate-x-1"
+                    }`}
+                />
+              </button>
+            </div>
+
+
           </div>
 
           {/* Wallpaper Grid */}
@@ -812,7 +872,7 @@ export default function DashboardPage() {
                       onMouseLeave={(e) => e.currentTarget.pause()}
                     />
                   )}
-                  <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+                  <div className="absolute inset-0 bg-black/0 flex items-center justify-center">
                     <span className="text-white text-sm font-medium">
                       {currentWallpaper === wallpaper.url ? "Current" : "Set as Wallpaper"}
                     </span>
@@ -875,30 +935,59 @@ export default function DashboardPage() {
         <div className="fixed inset-0 bg-black/20 backdrop-blur-sm z-20" onClick={() => setShowWallpaperPanel(false)} />
       )}
 
-      {/* Main Content */}
-      <div className="max-w-4xl mx-auto pt-10 relative z-10">
+      {/* ------------------------------------- Main Content ---------------------- */}
+      <div className="max-w-4xl h-full  flex justify-center items-center mx-auto pt-10 relative z-10 flex-col mb-5">
         {/* Widget Grid */}
-        <div className={`grid grid-cols-1 md:grid-cols-1 ${switchEnableCount==2 ? "md:grid-cols-2": switchEnableCount==3 ? "md:grid-cols-3" : ""} place-items-center justify-center   gap-4 mb-1  `}>
-          {/* Clock Widget */}
+        <div className={`absolute w-5/2  grid grid-cols-1 md:grid-cols-1 ${switchEnableCount == 2 ? "md:grid-cols-2" : switchEnableCount == 3 ? "md:grid-cols-3" : ""} place-items-center justify-center gap-4 mb-1 `}>
 
-          {watch ? <div className="glass bg-white/20 max-w-4xl backdrop-blur-sm rounded-3xl p-2 px-10 flex flex-col items-center justify-center ">
-            <div className="relative w-44 h-44 mb-1">
-              <div className="w-full h-full bg-white/30 rounded-full flex items-center justify-center ">
-                <AnalogClock />
+          {/* Weather Widget */}
+          {
+            weather ?
+              <div className="glass bg-white/20 backdrop-blur-sm rounded-3xl p-6 px-10">
+                <div className="text-center mb-4">
+                  <h3 className="text-gray-800 font-semibold text-lg">{weatherType.status}</h3>
+                </div>
+
+                <div className="space-y-3">
+                  <div className="bg-blue-500 rounded-full px-4 py-2 flex items-center justify-between">
+                    <span className="text-white font-medium">Humidity {weatherType.humidity}%</span>
+                    <Droplets className="w-5 h-5 text-white" />
+                  </div>
+
+                  <div className="bg-white/30 rounded-full px-4 py-2 flex items-center">
+                    <Droplets className="w-4 h-4 text-blue-600 mr-2" />
+                    <span className="text-gray-700 text-sm">Feels {weatherType.feelsLikeC}°C</span>
+                  </div>
+
+                  <div className="bg-blue-500 rounded-full px-4 py-2 flex items-center justify-center">
+                    <MapPin className="w-4 h-4 text-white mr-2" />
+                    <span className="text-white font-medium">{weatherType.city}</span>
+                  </div>
+                </div>
+              </div> : ""
+          }
+
+
+          {/* Clock Widget */}
+          {watch ?
+            watchType ? <div className=" "><FlipClock /></div> : <div className="glass bg-white/20 max-w-4xl backdrop-blur-xs rounded-3xl p-2 px-10 flex flex-col items-center justify-center ">
+              <div className="relative w-44 h-44 mb-1">
+                <div className="w-full h-full bg-white/30 rounded-full flex items-center justify-center ">
+                  <AnalogClock />
+                </div>
               </div>
-            </div>
-            <div className="text-center">
-              <h2 className="input text-gray-800 font-semibold text-lg">
-                {new Date().toLocaleDateString("en-US", { weekday: "long" })} {/* Example: Wednesday */}
-              </h2>
-              <p className="input text-gray-600">
-                {new Date().toLocaleDateString("en-US", {
-                  month: "short", // "Jan"
-                  day: "numeric", // "8"  
-                })}
-              </p>
-            </div>
-          </div> : ""}
+              <div className="text-center">
+                <h2 className="input text-gray-800 font-semibold text-lg">
+                  {new Date().toLocaleDateString("en-US", { weekday: "long" })} {/* Example: Wednesday */}
+                </h2>
+                <p className="input text-gray-600">
+                  {new Date().toLocaleDateString("en-US", {
+                    month: "short", // "Jan"
+                    day: "numeric", // "8"  
+                  })}
+                </p>
+              </div>
+            </div> : ""}
 
           {/* <div className="bg-white/20 backdrop-blur-sm rounded-3xl p-6 flex flex-col items-center justify-center">
             <div className="relative w-24 h-24 mb-4">
@@ -912,79 +1001,54 @@ export default function DashboardPage() {
             </div>
           </div> */}
 
-          {/* Weather Widget */}
-          {
-            weather ?
-              <div className="glass bg-white/20 backdrop-blur-sm rounded-3xl p-6 px-10">
-                <div className="text-center mb-4">
-                  <h3 className="text-gray-800 font-semibold text-lg">{weatherType}</h3>
-                </div>
-
-                <div className="space-y-3">
-                  <div className="bg-blue-500 rounded-full px-4 py-2 flex items-center justify-between">
-                    <span className="text-white font-medium">Humidity 93%</span>
-                    <Droplets className="w-5 h-5 text-white" />
-                  </div>
-
-                  <div className="bg-white/30 rounded-full px-4 py-2 flex items-center">
-                    <Droplets className="w-4 h-4 text-blue-600 mr-2" />
-                    <span className="text-gray-700 text-sm">Feels -0.8°C</span>
-                  </div>
-
-                  <div className="bg-blue-500 rounded-full px-4 py-2 flex items-center justify-center">
-                    <MapPin className="w-4 h-4 text-white mr-2" />
-                    <span className="text-white font-medium">London</span>
-                  </div>
-                </div>
-              </div> : ""
-          }
 
           {/* Temperature Widget */}
           {temprature ?
 
             <div className="glass bg-white/20 backdrop-blur-sm rounded-3xl p-6 flex flex-col items-center justify-center px-10">
-              <div className="text-6xl font-light text-gray-800 mb-2">1°C</div>
-              <Sun className="w-12 h-12 text-yellow-500" />
+              <div className="text-6xl font-light text-gray-800 mb-2">{weatherType.tempC}°C</div>
+              {ampm == "day" ? <Sun className="w-12 h-12 text-yellow-500" /> : <Moon className="w-12 h-12 text-yellow-500" />}
+              
             </div> : ""
           }
         </div>
 
         {/* Search Bar */}
-        <div className="relative max-w-md mx-auto mb-8">
-        <form
-          onSubmit={handleSubmit}
-          className="glass bg-white/20 backdrop-blur-sm rounded-full p-1 pr-2 flex items-center gap-2 mb-1 transform translate-y-20"
-        >
-          <SearchIcon className="w-15 h-15 text-gray-600 ml-4" />
-          <Input
-            value={searchQuery}
-            onChange={handleSearchInputChange}
+        <div className="relative top-70 mt-40  max-w-md mx-auto mb-1">
+          <form
+            onSubmit={handleSubmit}
+            className="glass bg-white/20 backdrop-blur-sm rounded-full p-0 pr-2 flex items-center gap-2 mb-1 transform translate-y-0"
+          >
+            <SearchIcon className="w-15 h-15 text-gray-600 ml-4" />
+            <Input
+              value={searchQuery}
+              onChange={handleSearchInputChange}
               onFocus={handleSearchInputFocus}
               onBlur={handleSearchInputBlur}
-            // onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Type here..."
-            className="input flex-1 text-white border-0 bg-transparent placeholder:text-gray-600 focus-visible:ring-0"
-          />
-          <Mic className="w-15 h-15 text-gray-600" />
-          <Button
-            type="submit"
-            onClick={handleSearch}
-            className="input bg-blue-500/50 hover:bg-blue-600 text-white rounded-l-full rounded-r-full px-6"
-          >
-            Search
-          </Button>
-        </form>
+              // onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Type here..."
+              className="input flex-1 text-white border-0 bg-transparent placeholder:text-gray-600 focus-visible:ring-0"
+            />
+            <Mic className="w-15 h-15 text-gray-600" />
+            <Button
+              type="submit"
+              onClick={handleSearch}
+              className="input bg-blue-500/30 hover:bg-blue-600 text-white rounded-l-full rounded-r-full px-6"
+            >
+              Search
+            </Button>
+          </form>
           {showSuggestions && filteredSuggestions.length > 0 && (
-            <div className="absolute top-40 left-0 right-0 mt-2 bg-white/0 rounded-2xl   border border-white/0 z-[60] overflow-hidden">
+            <div className="absolute top-20 left-0 right-0 mt-2 bg-white/0 rounded-2xl   border border-white/0 z-[60] overflow-hidden">
               {filteredSuggestions.map((suggestion, index) => (
                 <div
                   key={index}
-                  className=" px-4 py-3 bg-amber-50/80 h-15 hover:bg-amber-50/90 cursor-pointer text-gray-800 font-medium  transition-colors mb-3 rounded-2xl overflow-hidden"
+                  className=" px-2 py-3 bg-amber-50/80 h-12 hover:bg-amber-50/90 cursor-pointer text-gray-800 font-medium  transition-colors mb-3 rounded-2xl overflow-hidden"
                   onClick={() => handleSuggestionClick(suggestion)}
                 >
                   <div className="flex  items-start flex-row gap-1 w-full h-full justify-between ">
                     <SearchIcon className="w-7 h-7 text-black" />
-                    <span className="suggestionCursor w-8/10 h-full text-xl text-black flex justify-center-safe items-start overflow-y-scroll">{suggestion.title}</span>
+                    <span className="suggestionCursor w-8/10 h-full text-md text-black flex justify-center-safe items-start overflow-y-scroll">{suggestion.title}</span>
                   </div>
                 </div>
               ))}
@@ -1001,7 +1065,7 @@ export default function DashboardPage() {
       </div>
 
       {/* Bottom Dock */}
-      <div className="fixed bottom-80 left-1/2 transform -translate-x-1/2">
+      <div className="relative top-65  w-max transform mt-5  translate-y-0">
         <div className="glass bg-black/20 backdrop-blur-sm rounded-2xl p-3 flex items-center gap-7">
           {/* Default App Icons */}
           {/* <div
@@ -1052,7 +1116,7 @@ export default function DashboardPage() {
 
           {/* Custom Sites */}
           {customSites.map((site) => (
-            <div key={site.id} className="relative group">
+            <div key={site.id} className="relative transition-all duration-300 group opacity-40 hover:opacity-100 ">
               <div
                 className={`w-12 h-12 bg-white rounded-xl flex items-center justify-center cursor-pointer transition-all ${selectedSites.includes(site.id) ? "ring-2 ring-blue-500 bg-blue-100" : "hover:bg-gray-100"
                   } ${isSelectionMode ? "animate-pulse" : ""}`}
@@ -1101,7 +1165,7 @@ export default function DashboardPage() {
           {/* Add Site Button */}
           {!isSelectionMode && (
             <div
-              className="w-12 h-12 bg-gray-600 rounded-xl flex items-center justify-center cursor-pointer hover:bg-gray-500 transition-colors"
+              className="w-12 h-12 bg-gray-600/40 rounded-xl flex items-center justify-center cursor-pointer hover:bg-gray-500 transition-colors"
               onClick={() => setShowAddSiteModal(true)}
             >
               <span className="text-white font-bold text-xl">+</span>
