@@ -105,21 +105,21 @@ dashboard/<br>
 │   │   └── WallpaperUploader.jsx<br>
 │   │<br>
 │   ├── assets/             # Images, GIFs, icons, wallpapers<br>
-│   │   └── background.png
-│   │
-│   ├── styles/             # Tailwind & custom CSS
-│   │   └── index.css
-│   │
-│   ├── App.jsx             # Main React component (wraps Dashboard, routes, layout)
-│   ├── Dashboard.jsx       # Core dashboard UI (time, date, wallpapers, widgets)
-│   └── main.jsx            # React entry point, mounts <App /> into index.html
-│
-│── package.json            # Project metadata, dependencies, scripts
-│── vite.config.js          # Vite bundler config (plugins, paths, etc.)
-│── tailwind.config.js      # Tailwind custom theme/config
-
-🔎 What each does
-
+│   │   └── background.png<br>
+│   │<br>
+│   ├── styles/             # Tailwind & custom CSS<br>
+│   │   └── index.css<br>
+│   │<br>
+│   ├── App.jsx             # Main React component (wraps Dashboard, routes, layout)<br>
+│   ├── Dashboard.jsx       # Core dashboard UI (time, date, wallpapers, widgets)<br>
+│   └── main.jsx            # React entry point, mounts <App /> into index.html<br>
+│<br>
+│── package.json            # Project metadata, dependencies, scripts<br>
+│── vite.config.js          # Vite bundler config (plugins, paths, etc.)<br>
+│── tailwind.config.js      # Tailwind custom theme/config<br>
+<br>
+🔎 What each does<br>
+<br>
 public/ → static files copied as-is (favicons, extension manifest if needed).
 
 src/components/ → modular React components you can reuse (Clock, Weather, etc.).
